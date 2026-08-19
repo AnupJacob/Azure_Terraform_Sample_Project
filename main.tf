@@ -54,4 +54,16 @@ resource "azurerm_linux_virtual_machine" "az-linux-vm" {
     sku       = "22_04-lts"
     version   = "latest"
   }
+
+  provisioner "local-exec" {
+    command = templatefile("linux-ssh-script.tpl", {
+      hostname     = self.public_ip_address,
+      user         = "adminuser",
+      identityfile = "~/.ssh/id_rsa"
+    })
+    interpreter = ["bash", "-c"]
+  }
+  tags = {
+    environment = "dev"
+  }
 }
