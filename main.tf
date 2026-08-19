@@ -63,3 +63,13 @@ resource "azurerm_subnet_network_security_group_association" "az-subnet_nwk_asso
   network_security_group_id = azurerm_network_security_group.az_network_sec_grp.id
   subnet_id                 = azurerm_subnet.az_subnet.id
 }
+
+resource "azurerm_public_ip" "az_public_ip" {
+  allocation_method   = "Dynamic"
+  location            = azurerm_resource_group.az-resource-grp.location
+  name                = "az-public-ip"
+  resource_group_name = azurerm_resource_group.az-resource-grp.name
+  tags = {
+    environment = "dev"
+  }
+}
