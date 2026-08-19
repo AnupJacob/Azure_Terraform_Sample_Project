@@ -32,3 +32,17 @@ resource "azurerm_network_security_group" "az_network_sec_grp" {
     environment = "dev"
   }
 }
+
+resource "azurerm_network_interface" "az-nic" {
+  location            = azurerm_resource_group.az-resource-grp.location
+  name                = "az-network-interface"
+  resource_group_name = azurerm_resource_group.az-resource-grp.name
+  ip_configuration {
+    name                          = "internal"
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.az_public_ip.id
+  }
+  tags = {
+    environment = "dev"
+  }
+}
