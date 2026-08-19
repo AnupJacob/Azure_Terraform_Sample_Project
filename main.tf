@@ -33,6 +33,9 @@ resource "azurerm_virtual_network" "az_virtual_nwk" {
   location            = azurerm_resource_group.az-resource-grp.location
   name                = "az_virtual_network"
   resource_group_name = azurerm_resource_group.az-resource-grp.name
+  tags = {
+    environment = "dev"
+  }
 }
 
 resource "azurerm_subnet" "az_subnet" {
