@@ -12,25 +12,25 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "az-resource-grp" {
-  location = "az-resource-group"
-  name     = "North-Europe"
+  location = var.az-location
+  name     = "az-resource-group"
   tags = {
-    environment = "dev"
+    environment = var.environment
   }
 }
 
 resource "azurerm_public_ip" "az_public_ip" {
-  allocation_method   = "Static"
+  allocation_method   = var.ip-allocation
   location            = azurerm_resource_group.az-resource-grp.location
   name                = "az-public-ip"
   resource_group_name = azurerm_resource_group.az-resource-grp.name
   tags = {
-    environment = "dev"
+    environment = var.environment
   }
 }
 
 resource "azurerm_linux_virtual_machine" "az-linux-vm" {
-  admin_username        = "adminuser"
+  admin_username        = var.user
   location              = azurerm_resource_group.az-resource-grp.location
   name                  = "az-linux-vm"
   network_interface_ids = [azurerm_network_interface.az-nic.id]
@@ -44,7 +44,7 @@ resource "azurerm_linux_virtual_machine" "az-linux-vm" {
   }
 
   admin_ssh_key {
-    username   = "adminuser"
+    username   = var.user
     public_key = file("~/.ssh/id_rsa.pub")
   }
 
@@ -58,12 +58,12 @@ resource "azurerm_linux_virtual_machine" "az-linux-vm" {
   provisioner "local-exec" {
     command = templatefile("linux-ssh-script.tpl", {
       hostname     = self.public_ip_address,
-      user         = "adminuser",
+      user         = var.user,
       identityfile = "~/.ssh/id_rsa"
     })
     interpreter = ["bash", "-c"]
   }
   tags = {
-    environment = "dev"
+    environment = var.environment
   }
 }

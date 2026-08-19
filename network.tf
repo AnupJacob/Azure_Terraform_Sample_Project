@@ -1,15 +1,15 @@
 
 resource "azurerm_virtual_network" "az_virtual_nwk" {
-  address_space       = ["10.122.10.10/16"]
+  address_space       = var.az-virtual-network-address-space
   location            = azurerm_resource_group.az-resource-grp.location
   name                = "az_virtual_network"
   resource_group_name = azurerm_resource_group.az-resource-grp.name
   tags = {
-    environment = "dev"
+    environment = var.environment
   }
 }
 
-resource "azurerm_network_security_rule" "az" {
+resource "azurerm_network_security_rule" "az-security-rule" {
   name                        = "az-rule123"
   priority                    = 100
   direction                   = "Inbound"
@@ -29,7 +29,7 @@ resource "azurerm_network_security_group" "az_network_sec_grp" {
   name                = "az_network_group"
   resource_group_name = azurerm_resource_group.az-resource-grp.name
   tags = {
-    environment = "dev"
+    environment = var.environment
   }
 }
 
@@ -39,10 +39,10 @@ resource "azurerm_network_interface" "az-nic" {
   resource_group_name = azurerm_resource_group.az-resource-grp.name
   ip_configuration {
     name                          = "internal"
-    private_ip_address_allocation = "Static"
+    private_ip_address_allocation = var.ip-allocation
     public_ip_address_id          = azurerm_public_ip.az_public_ip.id
   }
   tags = {
-    environment = "dev"
+    environment = var.environment
   }
 }
