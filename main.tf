@@ -58,3 +58,8 @@ resource "azurerm_network_security_rule" "az" {
   resource_group_name         = azurerm_resource_group.az-resource-grp.name
   network_security_group_name = azurerm_network_security_group.az_network_sec_grp.name
 }
+
+resource "azurerm_subnet_network_security_group_association" "az-subnet_nwk_association" {
+  network_security_group_id = azurerm_network_security_group.az_network_sec_grp.id
+  subnet_id                 = azurerm_subnet.az_subnet.id
+}
