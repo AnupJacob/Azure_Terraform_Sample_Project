@@ -10,3 +10,11 @@ terraform {
 provider "azurerm" {
   features {}
 }
+
+resource "azurerm_resource_group" "az-resource-grp" {
+  location = "az-resource-group"
+  name     = "North-Europe"
+  tags = {
+    environment = "dev"
+  }
+}
