@@ -34,3 +34,10 @@ resource "azurerm_virtual_network" "az_virtual_nwk" {
   name                = "az_virtual_network"
   resource_group_name = azurerm_resource_group.az-resource-grp.name
 }
+
+resource "azurerm_subnet" "az_subnet" {
+  name                 = "az-subnet"
+  address_prefixes     = ["10.122.0.2"]
+  resource_group_name  = azurerm_resource_group.az-resource-grp.name
+  virtual_network_name = azurerm_virtual_network.az_virtual_nwk.name
+}
