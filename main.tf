@@ -19,51 +19,6 @@ resource "azurerm_resource_group" "az-resource-grp" {
   }
 }
 
-resource "azurerm_network_security_group" "az_network_sec_grp" {
-  location            = azurerm_resource_group.az-resource-grp.location
-  name                = "az_network_group"
-  resource_group_name = azurerm_resource_group.az-resource-grp.name
-  tags = {
-    environment = "dev"
-  }
-}
-
-resource "azurerm_virtual_network" "az_virtual_nwk" {
-  address_space       = ["10.122.10.10/16"]
-  location            = azurerm_resource_group.az-resource-grp.location
-  name                = "az_virtual_network"
-  resource_group_name = azurerm_resource_group.az-resource-grp.name
-  tags = {
-    environment = "dev"
-  }
-}
-
-resource "azurerm_subnet" "az_subnet" {
-  name                 = "az-subnet"
-  address_prefixes     = ["10.122.0.2"]
-  resource_group_name  = azurerm_resource_group.az-resource-grp.name
-  virtual_network_name = azurerm_virtual_network.az_virtual_nwk.name
-}
-
-resource "azurerm_network_security_rule" "az" {
-  name                        = "az-rule123"
-  priority                    = 100
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "*"
-  source_address_prefix       = "*"
-  destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.az-resource-grp.name
-  network_security_group_name = azurerm_network_security_group.az_network_sec_grp.name
-}
-
-resource "azurerm_subnet_network_security_group_association" "az-subnet_nwk_association" {
-  network_security_group_id = azurerm_network_security_group.az_network_sec_grp.id
-  subnet_id                 = azurerm_subnet.az_subnet.id
-}
-
 resource "azurerm_public_ip" "az_public_ip" {
   allocation_method   = "Dynamic"
   location            = azurerm_resource_group.az-resource-grp.location
