@@ -39,7 +39,7 @@ resource "azurerm_network_interface" "az-nic" {
   resource_group_name = azurerm_resource_group.az-resource-grp.name
   ip_configuration {
     name                          = "internal"
-    private_ip_address_allocation = "Dynamic"
+    private_ip_address_allocation = "Static"
     public_ip_address_id          = azurerm_public_ip.az_public_ip.id
   }
   tags = {
