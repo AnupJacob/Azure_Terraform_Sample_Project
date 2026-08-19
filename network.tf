@@ -9,7 +9,7 @@ resource "azurerm_virtual_network" "az_virtual_nwk" {
   }
 }
 
-resource "azurerm_network_security_rule" "az" {
+resource "azurerm_network_security_rule" "az-security-rule" {
   name                        = "az-rule123"
   priority                    = 100
   direction                   = "Inbound"
